@@ -1,14 +1,17 @@
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+
 const path = require('path')
+
+const BUILD_FOLDER = 'dist'
 
 module.exports = {
     mode: "production",
     entry: './src/index.js',
     output: {
         filename: 'bundle.[contenthash].js',
-        path: path.join(__dirname, 'dist/static/js'),
         clean: true
     },
     module: {
@@ -22,23 +25,30 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, {
-                    loader: 'css-loader',
-                    options: {
-                        modules: {
-                            exportOnlyLocals: true,
-                            localIdentName : '[contenthash]'
-                        },
-                        sourceMap: true
-                    }
-                }]
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: "css"
+                        }
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                exportOnlyLocals: true,
+                                localIdentName: '[contenthash]'
+                            },
+                            sourceMap: false,
+                        }
+                    }]
             }, {
                 test: /\.(png|jpeg|jpg|svg)$/,
                 use: [
                     {
-                        loader : "file-loader",
-                        options : { 
-                            publicPath : 'assets'
+                        loader: "file-loader",
+                        options: {
+                            publicPath: 'assets'
                         }
                     }
                 ]
@@ -52,27 +62,46 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './public/index.html',
         }),
-        new MiniCssExtractPlugin(),
-        new CssMinimizerPlugin()
+        new MiniCssExtractPlugin({
+            filename: "/[contenthash].css",
+            chunkFilename: '/[id].css'
+        }),
+        new CssMinimizerPlugin(),
     ],
     optimization: {
+        minimizer: [
+            new HtmlMinimizerPlugin({
+                parallel: true,
+                minimizerOptions: {
+                    collapseWhitespace: true,
+                },
+            })
+        ],
         runtimeChunk: "single",
         moduleIds: 'deterministic',
         splitChunks: {
             chunks: 'all',
-            maxInitialRequests: 10,
-            maxAsyncRequests: 10,
-            minSize: 0,
-            cacheGroups: {
-                vendor: {
-                reuseExistingChunk: true,
-                    test: /[\\/]node_modules[\\/]/,
-                    name(module) {
-                        const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-
-                        // npm package names are URL-safe, but some servers don't like @ symbols
-                        return `npm.${packageName.replace('@', '')}`;
+            maxAsyncRequests: 30,
+            maxInitialRequests: 30,
+            enforceSizeThreshold: 50000,
+            cacheGroups : {
+                vendor : {
+                    test  : /[\\/]node_modules[\\/]/,
+                    priority : -10,
+                    reuseExistingChunk : true,
+                    name(module, chunks, cacheGroupKey) {
+                        const moduleFileName = module
+                        .identifier()
+                        .split('/')
+                        .reduceRight((item) => item);
+                      const allChunksNames = chunks.map((item) => item.name).join('~');
+                      return `${cacheGroupKey}-${allChunksNames}-${moduleFileName}`;
                     }
+                },
+                default : {
+                    minChunks : 2, 
+                    priority : -20,
+                    reuseExistingChunk : true
                 }
             }
         }
