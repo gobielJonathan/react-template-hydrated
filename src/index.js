@@ -1,6 +1,7 @@
-import React, { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom'
+import { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+
 const App = lazy(() => import('./App'))
 const Login = lazy(() => import('./Login'))
 

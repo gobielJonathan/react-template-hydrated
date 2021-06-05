@@ -1,3 +1,4 @@
-h1.login{
-    color: red
+.login-title{
+    font-size: 20px;
+    color: yellow;
 }
