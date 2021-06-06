@@ -1,6 +1,9 @@
 const { mergeWithCustomize, customizeObject } = require('webpack-merge');
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
 const common = require('./webpack.common.js');
+const path = require('path')
 
 module.exports = mergeWithCustomize({
     customizeObject: customizeObject({
@@ -17,7 +20,7 @@ module.exports = mergeWithCustomize({
                     {
                         loader: 'file-loader',
                         options: {
-                            name: '[name].[ext]',
+                            name: '[contenthash].[ext]',
                             outputPath: './static/media/',
                         }
                     }
@@ -26,7 +29,18 @@ module.exports = mergeWithCustomize({
         ]
     },
     plugins: [
-        new HtmlMinimizerPlugin()
+        new HtmlMinimizerPlugin(),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: 'public',
+                    filter: (resourcePath) => {
+                        const filename = path.basename(resourcePath)
+                        return filename != 'index.html'
+                    }
+                },
+            ],
+        })
     ],
     optimization: {
         runtimeChunk: "single",
