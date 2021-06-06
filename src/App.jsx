@@ -1,10 +1,12 @@
-import { lazy, Suspense } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import React, { lazy, Suspense } from 'react'
+import { StaticRouter as Router, Route, Switch } from 'react-router-dom'
 import Provider from './context/index.context'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import Home from './pages/home'
+import Login from './Login'
 
-const App = lazy(() => import('./App'))
-const Login = lazy(() => import('./Login'))
+// const Login = lazy(() => import('./Login'))
+// const Home = lazy(() => import('./pages/home'))
 
 const client = new QueryClient({
   defaultOptions: {
@@ -15,14 +17,16 @@ const client = new QueryClient({
 })
 
 export default () => {
-  return <QueryClientProvider client={client}>
-    <Provider>
-      <Router>
-        <Suspense fallback={<p>Loading...</p>}>
-          <Route component={App} path="/" exact />
-          <Route component={Login} path="/login" exact />
-        </Suspense>
-      </Router>
-    </Provider>
-  </QueryClientProvider>
+  return (
+    <QueryClientProvider client={client}>
+      <Provider>
+        <Router>
+          <Switch>
+            <Route component={Home} path="/" exact />
+            <Route component={Login} path="/login" exact />
+          </Switch>
+        </Router>
+      </Provider>
+    </QueryClientProvider>
+  )
 }

@@ -52,7 +52,7 @@ module.exports = mergeWithCustomize({
         runtimeChunk: true,
         moduleIds: 'deterministic',
         splitChunks: {
-            chunks: 'async',
+            chunks: 'all',
             minSize: 20000,
             minRemainingSize: 0,
             minChunks: 1,

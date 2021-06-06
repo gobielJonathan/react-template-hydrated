@@ -1,14 +1,16 @@
+
 module.exports = {
     "presets": [
         "@babel/preset-env",
         ["@babel/preset-react", { 'runtime': 'automatic', 'importSource': "@emotion/react" }]
     ],
     "plugins": [
+        ["babel-plugin-webpack-alias",
+            {
+                "config": "./webpack.prod.js"
+            }
+        ],
         "@babel/plugin-transform-async-to-generator",
-        // [ "babel-plugin-webpack-alias", {
-        //     "config": "./webpack.prod.js"
-        //   }
-        // ],
         [
             "@babel/plugin-transform-runtime",
             {
@@ -18,6 +20,6 @@ module.exports = {
                 "regenerator": true,
                 "version": "7.0.0-beta.0"
             }
-        ],
+        ]
     ]
 }
