@@ -1,14 +1,8 @@
-const express = require('express')
-const React = require('react')
-const ReactDOM = require('react-dom/server')
-const App = require('../src/App')
-const path = require('path')
-const fs = require("fs")
+require('ignore-styles')
 
-const app = express()
-app.get("*", (req, res) => {
-    res.status(200).send()
+require('@babel/register')({
+    ignore: [/(node_module)/],
+    presets: ['@babel/preset-env', '@babel/preset-react']
 })
-app.listen(3000, () => {
-    console.log('listen :3000')
-})
+
+require('./server')
