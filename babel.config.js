@@ -1,7 +1,16 @@
 module.exports = {
     "presets": [
         "@babel/preset-env",
-        ["@babel/preset-react", {'runtime' : 'automatic', 'importSource': "@emotion/react"}]
+        ["@babel/preset-react", { 'runtime': 'automatic', 'importSource': "@emotion/react" }]
     ],
-    "plugins": ["@babel/plugin-transform-async-to-generator"]
+    "plugins": ["@babel/plugin-transform-async-to-generator", [
+        "@babel/plugin-transform-runtime",
+        {
+            "absoluteRuntime": false,
+            "corejs": false,
+            "helpers": true,
+            "regenerator": true,
+            "version": "7.0.0-beta.0"
+        }
+    ]]
 }

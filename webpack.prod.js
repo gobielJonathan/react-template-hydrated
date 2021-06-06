@@ -1,7 +1,6 @@
 const { mergeWithCustomize, customizeObject } = require('webpack-merge');
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-
 const common = require('./webpack.common.js');
 const path = require('path')
 
@@ -43,7 +42,7 @@ module.exports = mergeWithCustomize({
         })
     ],
     optimization: {
-        runtimeChunk: "single",
+        runtimeChunk: true,
         moduleIds: 'deterministic',
         splitChunks: {
             chunks: 'all',
@@ -61,8 +60,10 @@ module.exports = mergeWithCustomize({
                     priority: -10,
                     reuseExistingChunk: true,
                     name(module, chunks, cacheGroupKey) {
+                        // const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
                         const allChunksNames = chunks.map((item) => item.name).join('~');
-                        return `${cacheGroupKey}-${allChunksNames}`;
+                        return `${cacheGroupKey}_${allChunksNames}`;
                     },
                 },
                 default: {
