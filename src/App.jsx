@@ -1,9 +1,9 @@
-import React, { lazy, Suspense } from 'react'
-import { StaticRouter as Router, Route, Switch } from 'react-router-dom'
-import Provider from './context/index.context'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import Home from './pages/home'
-import Login from './Login'
+import React, { lazy, Suspense } from "react";
+import { Route, Switch } from "react-router-dom";
+import Provider from "./context/index.context";
+import { QueryClient, QueryClientProvider } from "react-query";
+import Home from "./pages/home";
+import Login from "./Login";
 
 // const Login = lazy(() => import('./Login'))
 // const Home = lazy(() => import('./pages/home'))
@@ -11,22 +11,20 @@ import Login from './Login'
 const client = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false
-    }
-  }
-})
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 export default () => {
   return (
     <QueryClientProvider client={client}>
       <Provider>
-        <Router>
-          <Switch>
-            <Route component={Home} path="/" exact />
-            <Route component={Login} path="/login" exact />
-          </Switch>
-        </Router>
+        <Switch>
+          <Route render={props => <Home {...props} />} path="/" exact />
+          <Route render={props => <Login {...props} />} path="/login" exact />
+        </Switch>
       </Provider>
     </QueryClientProvider>
-  )
-}
+  );
+};
