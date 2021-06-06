@@ -8,7 +8,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         filename: '[name].bundle.js',
-        path: path.join(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist'),
         clean: true
     },
     module: {
@@ -19,12 +19,15 @@ module.exports = {
                 use: 'babel-loader'
             },
             {
-                test: /\.(png|jpeg|jpg|svg)$/i,
-                use: 'url-loader'
-            },
-            {
                 test: /\.css$/,
-                use: [ MiniCssExtractPlugin.loader,'css-loader']
+                use: [MiniCssExtractPlugin.loader, {
+                    loader: 'css-loader',
+                    options: {
+                        modules: {
+                            localIdentName: 'css-[contenthash]',
+                        },
+                    },
+                }]
             },
         ]
     },
@@ -35,7 +38,9 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './public/index.html'
         }),
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: './static/css/[contenthash].css'
+        }),
         new CssMinimizerPlugin(),
     ],
 }

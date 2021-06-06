@@ -1,8 +1,6 @@
-const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin')
 const { mergeWithCustomize, customizeObject } = require('webpack-merge');
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const common = require('./webpack.common.js');
-const webpack = require('webpack')
-const path = require('path')
 
 module.exports = mergeWithCustomize({
     customizeObject: customizeObject({
@@ -11,31 +9,47 @@ module.exports = mergeWithCustomize({
     })
 })(common, {
     mode: "production",
-    plugins :[
-        new webpack.web.JsonpTemplatePlugin(options => options.jsonpFunction),
+    module: {
+        rules: [
+            {
+                test: /\.(png|jpeg|jpg|svg)$/i,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: './static/media/',
+                        }
+                    }
+                ],
+            },
+        ]
+    },
+    plugins: [
+        new HtmlMinimizerPlugin()
     ],
     optimization: {
-        minimizer: [
-            new HtmlMinimizerPlugin({
-                parallel: true,
-                minimizerOptions: {
-                    collapseWhitespace: true,
-                },
-            })
-        ],
         runtimeChunk: "single",
         moduleIds: 'deterministic',
         splitChunks: {
             chunks: 'all',
+            minSize: 20000,
+            minRemainingSize: 0,
+            minChunks: 1,
+            hidePathInfo: true,
             maxAsyncRequests: 30,
             maxInitialRequests: 30,
             enforceSizeThreshold: 50000,
+            automaticNameDelimiter: "~",
             cacheGroups: {
                 vendor: {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
                     reuseExistingChunk: true,
-                    name: "vendors"
+                    name(module, chunks, cacheGroupKey) {
+                        const allChunksNames = chunks.map((item) => item.name).join('~');
+                        return `${cacheGroupKey}-${allChunksNames}`;
+                    },
                 },
                 default: {
                     minChunks: 2,
