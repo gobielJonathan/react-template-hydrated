@@ -3,6 +3,8 @@ const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const common = require('./webpack.common.js');
 const path = require('path')
+const WorkboxPlugin = require("workbox-webpack-plugin")
+
 
 module.exports = mergeWithCustomize({
     customizeObject: customizeObject({
@@ -28,6 +30,11 @@ module.exports = mergeWithCustomize({
         ]
     },
     plugins: [
+        new WorkboxPlugin.GenerateSW({
+            cleanupOutdatedCaches: true,
+            clientsClaim : true,
+            skipWaiting: true,
+        }),
         new HtmlMinimizerPlugin(),
         new CopyPlugin({
             patterns: [
@@ -45,7 +52,7 @@ module.exports = mergeWithCustomize({
         runtimeChunk: true,
         moduleIds: 'deterministic',
         splitChunks: {
-            chunks: 'all',
+            chunks: 'async',
             minSize: 20000,
             minRemainingSize: 0,
             minChunks: 1,
@@ -61,7 +68,6 @@ module.exports = mergeWithCustomize({
                     reuseExistingChunk: true,
                     name(module, chunks, cacheGroupKey) {
                         // const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-
                         const allChunksNames = chunks.map((item) => item.name).join('~');
                         return `${cacheGroupKey}_${allChunksNames}`;
                     },

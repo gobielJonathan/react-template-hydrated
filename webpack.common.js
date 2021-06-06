@@ -1,16 +1,14 @@
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const WorkboxPlugin = require("workbox-webpack-plugin")
 const path = require('path')
-const IsProduction = process.env.NODE_ENV == 'production'
 
 module.exports = {
     entry: './src/index.js',
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        publicPath : "",
+        publicPath: "",
         clean: true
     },
     module: {
@@ -36,12 +34,12 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx'],
         alias: {
-            '@component': path.resolve(__dirname, 'src/components/'),
-            '@pages': path.resolve(__dirname, 'src/pages/'),
-            '@context': path.resolve(__dirname, 'src/context/'),
-            '@hooks': path.resolve(__dirname, 'src/hooks/'),
-            '@api': path.resolve(__dirname, 'src/api/'),
-            '@assets': path.resolve(__dirname, 'src/assets/'),
+            '@component': path.join(__dirname, 'src/components/'),
+            '@pages': path.join(__dirname, 'src/pages/'),
+            '@context': path.join(__dirname, 'src/context/'),
+            '@hooks': path.join(__dirname, 'src/hooks/'),
+            '@api': path.join(__dirname, 'src/api/'),
+            '@assets': path.join(__dirname, 'src/assets/'),
         }
     },
     plugins: [
@@ -52,11 +50,5 @@ module.exports = {
             filename: './static/css/[contenthash].css'
         }),
         new CssMinimizerPlugin(),
-        new WorkboxPlugin.GenerateSW({
-            cleanupOutdatedCaches: true,
-            mode : IsProduction ? "production" : "development",
-            clientsClaim : true,
-            skipWaiting: true,
-        })
     ],
 }

@@ -22,5 +22,5 @@ module.exports = mergeWithCustomize({
         historyApiFallback: true,
         open: true,
     },
-    devtool: "inline-source-map",
+    devtool: "eval",
 })
