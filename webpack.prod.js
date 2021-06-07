@@ -1,5 +1,6 @@
 const { mergeWithCustomize, customizeObject } = require('webpack-merge');
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+const { BundleAnalyzerPlugin } = require( "webpack-bundle-analyzer" );
 const CopyPlugin = require("copy-webpack-plugin");
 const common = require('./webpack.common.js');
 const path = require('path')
@@ -30,6 +31,11 @@ module.exports = mergeWithCustomize({
         ]
     },
     plugins: [
+        new BundleAnalyzerPlugin( {
+            analyzerMode: "static",
+            reportFilename: "webpack-report.html",
+            openAnalyzer: false,
+        } ) ,
         new WorkboxPlugin.GenerateSW({
             cleanupOutdatedCaches: true,
             clientsClaim : true,

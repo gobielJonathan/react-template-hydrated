@@ -1,8 +1,8 @@
 import React from 'react'
-import styles from  "./Login.css"
-import Title from "./components/title";
+import styles from  "./index.css"
+import Title from "@component/title";
 
-export default () => {
+export default function Login() {
   return (
     <>
       <Title>h1 from login</Title>
