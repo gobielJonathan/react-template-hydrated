@@ -1,10 +1,11 @@
 const { mergeWithCustomize, customizeObject } = require('webpack-merge');
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
-const { BundleAnalyzerPlugin } = require( "webpack-bundle-analyzer" );
 const CopyPlugin = require("copy-webpack-plugin");
 const common = require('./webpack.common.js');
 const path = require('path')
-const WorkboxPlugin = require("workbox-webpack-plugin")
+const WorkboxPlugin = require("workbox-webpack-plugin");
 
 
 module.exports = mergeWithCustomize({
@@ -14,31 +15,15 @@ module.exports = mergeWithCustomize({
     })
 })(common, {
     mode: "production",
-    module: {
-        rules: [
-            {
-                test: /\.(png|jpeg|jpg|svg)$/i,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: '[contenthash].[ext]',
-                            outputPath: './static/media/',
-                        }
-                    }
-                ],
-            },
-        ]
-    },
     plugins: [
-        new BundleAnalyzerPlugin( {
+        new BundleAnalyzerPlugin({
             analyzerMode: "static",
             reportFilename: "webpack-report.html",
             openAnalyzer: false,
-        } ) ,
+        }),
         new WorkboxPlugin.GenerateSW({
             cleanupOutdatedCaches: true,
-            clientsClaim : true,
+            clientsClaim: true,
             skipWaiting: true,
         }),
         new HtmlMinimizerPlugin(),

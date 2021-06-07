@@ -2,6 +2,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
     entry: './src/index.js',
@@ -9,9 +10,6 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename : "./static/js/[name].bundle.js",
         clean: true
-    },
-    externals: {
-        'react': 'React'
     },
     module: {
         rules: [
@@ -31,6 +29,18 @@ module.exports = {
                     },
                 }]
             },
+            {
+                test: /\.(png|jpeg|jpg|svg)$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        // options: {
+                        //     name: '[contenthash].[ext]',
+                        //     outputPath: './static/media/',
+                        // }
+                    }
+                ],
+            },
         ]
     },
     resolve: {
@@ -47,10 +57,17 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './public/index.html',
+            minify : {
+                collapseWhitespace: true, 
+                removeComments: true,
+            }
         }),
         new MiniCssExtractPlugin({
             filename: './static/css/[contenthash].css'
         }),
         new CssMinimizerPlugin(),
+        new webpack.ProvidePlugin({
+            "React": "react",
+         }),
     ],
 }

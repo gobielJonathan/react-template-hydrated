@@ -5,6 +5,7 @@
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
+    "build:server": "webpack --config webpack.server.js",
     "serve": "http-server dist",
     "ssr": "node server/index.js"
   },
@@ -30,6 +31,7 @@
     "ignore-styles": "^5.0.1",
     "isomorphic-fetch": "^3.0.0",
     "mini-css-extract-plugin": "^1.6.0",
+    "process": "^0.11.10",
     "style-loader": "^2.0.0",
     "url-loader": "^4.1.1",
     "webpack": "^5.38.1",

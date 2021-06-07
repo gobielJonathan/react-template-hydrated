@@ -28,16 +28,21 @@ app.use("*", (req, res, next) => {
                 <App />
             </StaticRouter>
         )
+
+        if (context.url) {
+            return res.redirect(context.url);
+        }
+
         return res.writeHead(200, { "Content-Type": "text/html" }).end(
             data.replace(
-                '<div id="root"></div>',
-                `<div id="root">${markup}</div>`
+                '<div id="app"></div>',
+                `<div id="app">${markup}</div>`
             )
         );
     });
 });
 
-app.use(express.static(path.resolve(__dirname, '..', 'build')))
+app.use(express.static(path.join(__dirname, '..', 'dist'), { maxAge: '20 days' }))
 
 app.listen(PORT, () => {
     console.log(`App launched on ${PORT}`);

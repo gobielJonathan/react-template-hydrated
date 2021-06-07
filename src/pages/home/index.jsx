@@ -8,18 +8,18 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
 
 export default () => {
-  const { auth, setAuth } = useContext(AuthContext);
-  const {
-    get: { data, isLoading },
-    add: { mutateAsync: addPost },
-  } = usePost();
+  // const { auth, setAuth } = useContext(AuthContext);
+  // const {
+  //   get: { data, isLoading },
+  //   add: { mutateAsync: addPost },
+  // } = usePost();
 
   return (
     <>
       <img src={Image} alt="" />
       <Link to={"/login"}>Login</Link>
       <Title>Helo from appjs 123</Title>
-      <button onClick={() => setAuth(!auth)}>toggle auth</button>
+      {/* <button onClick={() => setAuth(!auth)}>toggle auth</button>
       <p>{auth ? "auth" : "not auth"}</p>
       {isLoading && "getting post"}
       <div style={{ height: 300, overflowY: "auto" }}>
@@ -53,7 +53,7 @@ export default () => {
             </button>
           </Form>
         )}
-      </Formik>
+      </Formik> */}
     </>
   );
 };

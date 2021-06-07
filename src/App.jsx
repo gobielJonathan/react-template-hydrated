@@ -1,3 +1,4 @@
+import React from 'react'
 import { Route, Switch } from "react-router-dom";
 import Provider from "./context/index.context";
 import { QueryClient, QueryClientProvider } from "react-query";
