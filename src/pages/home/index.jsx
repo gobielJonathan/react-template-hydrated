@@ -1,63 +1,38 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import Image from "@assets/images/dummy.png";
-import Title from "@component/title";
-import { AuthContext } from "@context/auth.context";
-import usePost from "@hooks/post.hooks";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import * as yup from "yup";
+import fetch from "isomorphic-fetch"
+import { PureComponent } from "react"
+import { Link } from "react-router-dom"
 
-export default () => {
-  // const { auth, setAuth } = useContext(AuthContext);
-  // const {
-  //   get: { data, isLoading },
-  //   add: { mutateAsync: addPost },
-  // } = usePost();
+export default class Home extends PureComponent {
+  constructor(props) {
+    super(props)
 
-  const test = () => {
-    alert("asdasd")
+    let initialData = []
+    if (props.staticContext) {
+      initialData = props.staticContext.initialData
+    } else {
+      initialData = window.__initialData__
+      delete window.__initialData__
+    }
+
+    this.state = { posts: initialData }
   }
-  return (
-    <>
-      <img src={Image} alt="" />
-      <Link to={"/login"}>Login</Link>
-      <button onClick={test}>test</button>
-      {/* <Title>Helo from appjs 123</Title> */}
-      {/* <button onClick={() => setAuth(!auth)}>toggle auth</button>
-      <p>{auth ? "auth" : "not auth"}</p>
-      {isLoading && "getting post"}
-      <div style={{ height: 300, overflowY: "auto" }}>
-        {!isLoading &&
-          data?.map(({ id, title, body }) => (
-            <React.Fragment key={id}>
-              <p>{title}</p>
-              <p>{body}</p>
-              <hr />
-            </React.Fragment>
-          ))}
-      </div>
-      <Formik
-        initialValues={{ title: "", body: "" }}
-        validationSchema={yup.object().shape({
-          title: yup.string().required("title must be required"),
-          body: yup.string().required("body must be required"),
-        })}
-        onSubmit={(values, { setSubmitting }) => {
-          addPost(values).then(() => setSubmitting(false));
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <Field type="text" name="title" />
-            <ErrorMessage name="title" component="div" />
-            <Field type="text" name="body" />
-            <ErrorMessage name="body" component="div" />
-            <button type="submit" disabled={isSubmitting}>
-              Submit
-            </button>
-          </Form>
-        )}
-      </Formik> */}
-    </>
-  );
-};
+
+  render() {
+    return (
+      <>
+        <h1>testing</h1>
+        <Link to={'/todo'}>Login</Link>
+        {
+          this.state.posts?.map(({ id, title }) => {
+            return <p key={id}>{title}</p>
+          })
+        }
+      </>
+    )
+  }
+
+  static async requestInitialData() {
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts")
+    return await res.json()
+  }
+}

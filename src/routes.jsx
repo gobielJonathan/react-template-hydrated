@@ -1,16 +1,16 @@
 import Home from "./pages/home";
-import Login from "./pages/login";
+import Todo from "./pages/todo";
 
 export default [
     {
-        path : "/login",
-        render : props =>  <Login {...props} />,
-        exact : true
+        path: "/",
+        component: Home,
+        exact: true
     },
 
     {
-        path : "/",
-        render : props =>  <Home {...props} />,
-        exact : true
+        path: "/todo",
+        component: Todo,
+        exact: true
     },
 ]
