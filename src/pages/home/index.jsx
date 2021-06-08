@@ -14,11 +14,15 @@ export default () => {
   //   add: { mutateAsync: addPost },
   // } = usePost();
 
+  const test = () => {
+    alert("asdasd")
+  }
   return (
     <>
       <img src={Image} alt="" />
       <Link to={"/login"}>Login</Link>
-      <Title>Helo from appjs 123</Title>
+      <button onClick={test}>test</button>
+      {/* <Title>Helo from appjs 123</Title> */}
       {/* <button onClick={() => setAuth(!auth)}>toggle auth</button>
       <p>{auth ? "auth" : "not auth"}</p>
       {isLoading && "getting post"}

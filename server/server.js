@@ -11,6 +11,9 @@ const PORT = 8080;
 
 const app = express();
 
+app.use('/static',express.static(path.join(__dirname, '..', 'dist','static'), { maxAge: '20 days' }))
+
+
 app.use("*", (req, res, next) => {
     const dataRequirements = routes
         .filter(route => matchPath(req.url, route)) // filter matching paths
@@ -29,10 +32,6 @@ app.use("*", (req, res, next) => {
             </StaticRouter>
         )
 
-        if (context.url) {
-            return res.redirect(context.url);
-        }
-
         return res.writeHead(200, { "Content-Type": "text/html" }).end(
             data.replace(
                 '<div id="app"></div>',
@@ -42,7 +41,6 @@ app.use("*", (req, res, next) => {
     });
 });
 
-app.use(express.static(path.join(__dirname, '..', 'dist'), { maxAge: '20 days' }))
 
 app.listen(PORT, () => {
     console.log(`App launched on ${PORT}`);
