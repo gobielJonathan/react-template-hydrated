@@ -10,7 +10,7 @@ export default [
 
     {
         path: "/todo",
-        component: Todo,
+        component: Home,
         exact: true
     },
 ]

@@ -17,6 +17,12 @@ export default class Todo extends PureComponent {
         this.state = { todos: initialData }
     }
 
+    componentDidMount(){
+        if (!this.state.todos) {
+            Todo.requestInitialData().then(res => this.setState({todos : res}))
+        }
+    }
+
     render() {
         return <>
             <h2>welcome to todos</h2>
