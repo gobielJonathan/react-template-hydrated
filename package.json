@@ -19,6 +19,8 @@
     "@babel/register": "^7.13.16",
     "@babel/runtime": "^7.14.0",
     "@emotion/react": "^11.4.0",
+    "@loadable/babel-plugin": "^5.13.2",
+    "@loadable/webpack-plugin": "^5.15.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-webpack-alias": "^2.1.2",
     "copy-webpack-plugin": "^9.0.0",
@@ -46,9 +48,12 @@
     "workbox-webpack-plugin": "^6.1.5"
   },
   "dependencies": {
+    "@loadable/component": "^5.15.0",
+    "@loadable/server": "^5.15.0",
     "formik": "^2.2.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
     "react-query": "^3.16.1",
     "react-router-dom": "^5.2.0",
     "yup": "^0.32.9"

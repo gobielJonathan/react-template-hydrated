@@ -1,6 +1,7 @@
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
 const path = require('path')
 const webpack = require('webpack')
 
@@ -8,7 +9,8 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename : "./static/js/[name].bundle.js",
+        filename: "./static/js/[name].bundle.js",
+        publicPath : "",
         clean: true
     },
     module: {
@@ -19,7 +21,7 @@ module.exports = {
                 use: 'babel-loader'
             },
             {
-                test: /\.css$/,
+                test: /\.css$/i,
                 use: [MiniCssExtractPlugin.loader, {
                     loader: 'css-loader',
                     options: {
@@ -64,6 +66,6 @@ module.exports = {
         new CssMinimizerPlugin(),
         new webpack.ProvidePlugin({
             "React": "react",
-         }),
+        }),
     ],
 }

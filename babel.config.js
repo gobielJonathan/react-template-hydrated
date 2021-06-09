@@ -6,6 +6,7 @@ module.exports = {
     ],
     "plugins": [
         "@babel/plugin-transform-async-to-generator",
+        "@loadable/babel-plugin",
         ["babel-plugin-webpack-alias", {
             "config": "./webpack.prod.js"
         }

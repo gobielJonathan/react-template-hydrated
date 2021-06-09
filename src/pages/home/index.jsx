@@ -1,12 +1,14 @@
 import fetch from "isomorphic-fetch";
-import { PureComponent } from "react";
+import React,  { PureComponent } from "react";
 import { Link } from "react-router-dom";
+import Button from "../../components/button";
+import SEO from "../../components/seo";
 
 export default class Home extends PureComponent {
   constructor(props) {
     super(props);
 
-    let initialData = [];
+    let initialData;
     if (props.staticContext) {
       initialData = props.staticContext.initialData;
     } else {
@@ -26,11 +28,17 @@ export default class Home extends PureComponent {
   render() {
     return (
       <>
+        <SEO title={"Home"} description={"show about all post"}/>
+
         <h1>testing</h1>
-        <Link to={"/todo"}>Login</Link>
-        {this.state.posts?.map(({ id, title }) => {
-          return <p key={id}>{title}</p>;
-        })}
+        <Link to={"/users"}>
+          <Button text={"redirect to users"} />
+        </Link>
+        {
+          this.state.posts?.map(({ id, title }) => {
+            return <p key={id}>{title}</p>;
+          })
+        }
       </>
     );
   }
