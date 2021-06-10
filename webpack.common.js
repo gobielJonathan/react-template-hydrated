@@ -10,7 +10,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: "./static/js/[name].bundle.js",
-        publicPath : "",
+        publicPath: "",
         clean: true
     },
     module: {
@@ -42,6 +42,11 @@ module.exports = {
                         // }
                     }
                 ],
+            },
+            {
+                test: /\.(graphql|gql)$/,
+                exclude: /node_modules/,
+                loader: 'graphql-tag/loader',
             },
         ]
     },

@@ -5,6 +5,7 @@ import loadable from '@loadable/component'
 
 const Home = loadable(() => import("./pages/home"))
 const User = loadable(() => import("./pages/user"))
+const Currency = loadable(() => import("./pages/currency"))
 
 export default [
     {
@@ -15,6 +16,11 @@ export default [
     {
         path: "/users",
         component: User,
+        exact: true
+    },
+    {
+        path: "/currency",
+        component: Currency,
         exact: true
     },
 ]

@@ -1,5 +1,5 @@
 import fetch from "isomorphic-fetch";
-import React,  { PureComponent } from "react";
+import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../components/button";
 import SEO from "../../components/seo";
@@ -28,7 +28,7 @@ export default class Home extends PureComponent {
   render() {
     return (
       <>
-        <SEO title={"Home"} description={"show about all post"}/>
+        <SEO title={"Home"} description={"show about all post"} />
 
         <h1>testing</h1>
         <Link to={"/users"}>
